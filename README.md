@@ -1,7 +1,8 @@
 # Book Scraper Project  
 
 ## Overview  
-This project scrapes book details from [Books to Scrape](http://books.toscrape.com/) using Python to analyze trends in pricing, ratings, and stock availability.  
+This project scrapes book details from [Books to Scrape](http://books.toscrape.com/) using Python.  
+By analyzing pricing trends, ratings, and stock availability, we can understand book market dynamics and pricing strategies.  
 
 ## Objective  
 - Extract **Title, Pricing, Availability, and Product URL** for approximately 1,000 books.  
@@ -17,18 +18,13 @@ This project scrapes book details from [Books to Scrape](http://books.toscrape.c
 - **Storage**: CSV  
 
 ## Business Flow  
-1. **Initiate Scraping** – Start from page one.  
-2. **Send HTTP Request** – Validate the status code.  
-3. **Extract Data** – Scrape the following details:  
-   - Title  
-   - Pricing  
-   - Rating  
-   - Availability  
-   - Product URL  
-4. **Handle Pagination** – Iterate through multiple pages.  
-5. **Log Errors** – Manage missing fields and HTTP issues.  
-6. **Store Data** – Save structured output into `books_data.csv`.  
-7. **Perform Testing** – Verify data integrity and format.  
+1️⃣ **Initiate Scraping** – Start from page one.  
+2️⃣ **Send HTTP Request** – Validate the status code.  
+3️⃣ **Extract Data** – Scrape details including title, pricing, rating, availability, and URL.  
+4️⃣ **Handle Pagination** – Keep scraping until no more books exist.  
+5️⃣ **Log Errors** – Record issues with HTTP failures and missing fields.  
+6️⃣ **Store Data** – Save extracted results in `books_data.csv`.  
+7️⃣ **Perform Testing** – Ensure accuracy through structured validation.  
 
 ## Implementation and Code Structure  
 ### Key Functions  
@@ -49,15 +45,16 @@ This project scrapes book details from [Books to Scrape](http://books.toscrape.c
    - Saves output into `books_data.csv`  
 
 ## Error Handling  
-- **Missing Data** – Logs error and skips invalid books.  
-- **HTTP Errors** – Retries requests and records failures in `scraping_errors.log`.  
-- **Unexpected Rating Format** – Defaults to `None` and logs the issue.  
-- **Empty Response** – Stops pagination process.  
+- **Missing Data** – If a book lacks price or rating, it's skipped and logged for review.  
+- **HTTP Errors** – The scraper retries failed requests up to **3 times** before skipping the page.  
+- **Unexpected Rating Format** – Defaults to `None` and records the issue in logs.  
+- **Empty Pages** – Stops pagination when no books are found to avoid infinite loops.  
 
 ## Data Storage Structure (`books_data.csv`)  
 | Title                   | Price  | Rating | Availability | Product URL                     |  
 |-------------------------|--------|--------|--------------|---------------------------------|  
 | A Light in the Attic    | 51.77  | Three  | In stock     | `a-light-in-the-attic_1000/index.html` |  
+| Mystery Novel           | N/A    | Four   | Out of stock | `mystery-novel_2001/index.html` |  
 
 ## Testing and Validation  
 ### Test Cases Covered  
@@ -71,5 +68,4 @@ This project scrapes book details from [Books to Scrape](http://books.toscrape.c
 1. **Handling Timeouts** – Added request timeout (`timeout=10`).  
 2. **Rating Conversion Errors** – Used dictionary mapping (`One -> 1, Two -> 2`).  
 3. **Avoiding Crashes** – Wrapped functions in try-except blocks to prevent failures.  
-
 
